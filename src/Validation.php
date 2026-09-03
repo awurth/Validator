@@ -22,6 +22,10 @@ use Respect\Validation\Validatable;
  */
 final class Validation implements ValidationInterface
 {
+    /**
+     * @param array<string, string> $messages
+     * @param array<string, string> $globalMessages
+     */
     public function __construct(
         private readonly Validatable $rules,
         private readonly ?string $property = null,

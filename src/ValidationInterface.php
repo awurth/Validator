@@ -33,8 +33,14 @@ interface ValidationInterface
 
     public function getMessage(): ?string;
 
+    /**
+     * @return array<string, string>
+     */
     public function getMessages(): array;
 
+    /**
+     * @return array<string, string>
+     */
     public function getGlobalMessages(): array;
 
     public function getContext(): mixed;

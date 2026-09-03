@@ -18,7 +18,7 @@ final class NoopDataCollectorAsserter implements DataCollectorAsserterInterface
     {
     }
 
-    public function assert(mixed $subject, ValidationInterface $validation, array $messages = []): ValidationFailureCollectionInterface
+    public function assert(mixed $subject, ValidationInterface $validation): ValidationFailureCollectionInterface
     {
         $this->data->add(new ValidatedValue($validation, $subject));
 

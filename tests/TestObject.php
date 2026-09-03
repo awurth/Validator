@@ -18,6 +18,7 @@ namespace Awurth\Validator\Tests;
 final class TestObject
 {
     public function __construct(
+        // @phpstan-ignore property.onlyWritten
         private mixed $privateProperty = null,
         protected mixed $protectedProperty = null,
         public mixed $publicProperty = null,
@@ -34,17 +35,17 @@ final class TestObject
         return $this->publicProperty;
     }
 
-    public function setPrivateProperty($privateProperty): void
+    public function setPrivateProperty(mixed $privateProperty): void
     {
         $this->privateProperty = $privateProperty;
     }
 
-    public function setProtectedProperty($protectedProperty): void
+    public function setProtectedProperty(mixed $protectedProperty): void
     {
         $this->protectedProperty = $protectedProperty;
     }
 
-    public function setPublicProperty($publicProperty): void
+    public function setPublicProperty(mixed $publicProperty): void
     {
         $this->publicProperty = $publicProperty;
     }

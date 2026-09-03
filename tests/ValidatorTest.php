@@ -19,7 +19,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Validator as V;
 use Slim\Psr7\Factory\ServerRequestFactory;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 final class ValidatorTest extends TestCase
 {
@@ -42,7 +41,7 @@ final class ValidatorTest extends TestCase
 
     public function testValidateWithRulesWrongType(): void
     {
-        $this->expectException(InvalidOptionsException::class);
+        $this->expectException(InvalidPropertyOptionsException::class);
 
         $this->validator->validate($this->request, [
             'username' => [

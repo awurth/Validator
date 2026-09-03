@@ -16,10 +16,19 @@ namespace Awurth\Validator;
 use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
 use Respect\Validation\Validatable;
 
+/**
+ * @phpstan-type ValidationOptions array{
+ *     rules: Validatable,
+ *     default?: mixed,
+ *     message?: string|null,
+ *     messages?: array<string, string>,
+ * }
+ */
 interface ValidatorInterface
 {
     /**
-     * @param array<string, string> $messages
+     * @param Validatable|ValidationOptions|array<string, Validatable|ValidationOptions> $rules    the options for a single value when $subject is a scalar, a property => rules map otherwise
+     * @param array<string, string>                                                      $messages
      */
     public function validate(mixed $subject, Validatable|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface;
 }

@@ -7,7 +7,7 @@ namespace Awurth\Validator\ValueReader;
 final class ArrayValueReader implements ValueReaderInterface
 {
     /**
-     * @param array $subject
+     * @param array<array-key, mixed> $subject
      */
     public function getValue(mixed $subject, string $path, mixed $default = null): mixed
     {

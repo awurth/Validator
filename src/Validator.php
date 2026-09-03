@@ -66,7 +66,7 @@ final class Validator implements ValidatorInterface
             $rules['globalMessages'] = $messages;
             $rules['context'] = $context;
 
-            return $this->asserter->assert($subject, $this->validationFactory->create($rules));
+            return $this->asserter->assert($subject, $this->validationFactory->create(self::assertHasRules($rules)));
         }
 
         if ([] === $rules) {
@@ -86,7 +86,7 @@ final class Validator implements ValidatorInterface
             $options['globalMessages'] = $messages;
             $options['context'] = $context;
 
-            $validation = $this->validationFactory->create($options, $property);
+            $validation = $this->validationFactory->create(self::assertHasRules($options, $property), $property);
             $value = $valueReader->getValue($subject, $property, $validation->getDefault());
 
             if (!$failures instanceof ValidationFailureCollectionInterface) {
@@ -98,5 +98,19 @@ final class Validator implements ValidatorInterface
         }
 
         return $failures;
+    }
+
+    /**
+     * @param array<array-key, mixed> $options
+     *
+     * @return array{rules: Validatable}&array<array-key, mixed>
+     */
+    private static function assertHasRules(array $options, ?string $property = null): array
+    {
+        if (!($options['rules'] ?? null) instanceof Validatable) {
+            throw new InvalidPropertyOptionsException(\sprintf('The "rules" option must be an instance of "%s"%s, "%s" given', Validatable::class, null === $property ? '' : \sprintf(' for property "%s"', $property), \get_debug_type($options['rules'] ?? null)));
+        }
+
+        return $options;
     }
 }
