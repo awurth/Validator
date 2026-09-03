@@ -42,10 +42,10 @@ if (0 !== $failures->count()) {
 }
 ```
 
-The `validate()` method returns a list of validation failures as an object that implements [`ValidationFailureCollectionInterface`](src/ValidationFailureCollectionInterface.php). If you have lots of validation failures, you can filter them with a callback:
+The `validate()` method returns a list of validation failures as an object that implements [`ValidationFailureCollectionInterface`](src/Failure/ValidationFailureCollectionInterface.php). If you have lots of validation failures, you can filter them with a callback:
 
 ``` php
-use Awurth\Validator\ValidationFailureInterface;
+use Awurth\Validator\Failure\ValidationFailureInterface;
 
 $failures = $validator->validate(/* ... */);
 $filteredFailures = $failures->filter(static function (ValidationFailureInterface $failure, int $index): bool {
