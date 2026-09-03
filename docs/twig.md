@@ -82,6 +82,8 @@ Passing the asserter adds a fourth function, `val()`, which takes a callback ove
 <input type="text" name="username" value="{{ val(value => value.validation.property == 'username') }}">
 ```
 
+`val` is renamed through the same array as the other three, under the `val` key.
+
 ## Legacy extension
 
 `Awurth\Validator\Twig\LegacyValidatorExtension` reproduces the key based API of v4. It is deprecated, will be removed in v6, and takes no new features. Use `ValidatorExtension` instead.

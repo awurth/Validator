@@ -67,11 +67,9 @@ Three levels exist, each overriding the one before it:
 3. **Per property `messages`**
 
 ``` php
-use Awurth\Validator\Assertion\Asserter;
-
-$validator = Validator::create(Asserter::create([
+$validator = Validator::create(messages: [
     'notBlank' => 'This value is required.',
-]));
+]);
 
 $failures = $validator->validate(['username' => ''], [
     'username' => ['rules' => V::notBlank()],
@@ -79,6 +77,8 @@ $failures = $validator->validate(['username' => ''], [
     'notBlank' => 'Overrides the asserter default.',
 ]);
 ```
+
+`StatefulValidator::create()` takes no messages, so build the asserter yourself there: `StatefulValidator::create(Asserter::create(['notBlank' => 'This value is required.']))`.
 
 A property level `message` sits outside this ladder: it wins over all three and produces one failure.
 
