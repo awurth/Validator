@@ -24,8 +24,8 @@
     "require": {
         "php": ">=8.5",
         "respect/validation": "^2.0",
-        "symfony/options-resolver": "^6.0 || ^7.0 || ^8.0",
-        "symfony/property-access": "^6.0 || ^7.0 || ^8.0"
+        "symfony/options-resolver": "^7.4 || ^8.0",
+        "symfony/property-access": "^7.4 || ^8.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.41",

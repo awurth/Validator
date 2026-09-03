@@ -33,7 +33,7 @@ CI (`.github/workflows/ci.yml`) runs on push/PR against `5.x`, split into five j
 - **Coding standards** — the PHP CS Fixer dry-run, pinned to PHP 8.5, the project's minimum, because the fixer can emit syntax the minimum version cannot parse when run on a newer runtime.
 - **Static analysis** — PHPStan at level 10 over `src` and `tests`, configured in `phpstan.dist.neon`. `phpVersion` is pinned to 8.5 so the analysis targets the only supported version rather than the one the runner happens to use.
 - **Rector** — `rector process --dry-run` over `src` and `tests`, configured in `rector.php`: the dead code, code quality, coding style, type declaration, instanceof and PHPUnit prepared sets, the Twig/PHPUnit composer-based sets, and `withPhpSets()`. The dry run exits non-zero as soon as a rule would rewrite something, so drift fails the build like the CS check does. Run it before the fixer, since its output does not follow the CS rules.
-- **Tests** — a 2-entry matrix: PHP 8.5 with the highest resolvable dependencies, plus PHP 8.5 with `--prefer-lowest`. The lowest run is the only thing exercising the `symfony/* ^6.0` and `respect/validation ^2.0` floors, so a change that silently needs a newer minor must raise the constraint rather than relax the job.
+- **Tests** — a 2-entry matrix: PHP 8.5 with the highest resolvable dependencies, plus PHP 8.5 with `--prefer-lowest`. The lowest run is the only thing exercising the `symfony/* ^7.4` and `respect/validation ^2.0` floors, so a change that silently needs a newer minor must raise the constraint rather than relax the job.
 
 `fail-fast` is off, so one failing PHP version does not hide the others.
 
