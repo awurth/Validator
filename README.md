@@ -20,7 +20,7 @@ $ composer require awurth/slim-validation "^5.0"
 
 ## Documentation
 
-* [**5.x**](docs/index.md) (current, PHP >= 8.1)
+* [**5.x**](docs/index.md) (current, PHP >= 8.5)
   * [Validating subjects](docs/subjects.md)
   * [Rule options](docs/options.md)
   * [Working with failures](docs/failures.md)

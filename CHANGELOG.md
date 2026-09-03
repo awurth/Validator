@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* Raised the minimum PHP version to 8.5
+* Removed `Awurth\Validator\Twig\LegacyValidatorExtension`, deprecated since v5.0, use `Awurth\Validator\Twig\ValidatorExtension` instead
+
 ## v5.1.0
 
 * Allow Symfony 8
