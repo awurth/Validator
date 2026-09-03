@@ -9,12 +9,12 @@ use InvalidArgumentException;
 use function get_debug_type;
 use function sprintf;
 
-final class ValueReaderRegistry implements ValueReaderRegistryInterface
+final readonly class ValueReaderRegistry implements ValueReaderRegistryInterface
 {
     /**
      * @param iterable<int, ValueReaderInterface> $valueReaders
      */
-    public function __construct(private readonly iterable $valueReaders)
+    public function __construct(private iterable $valueReaders)
     {
     }
 

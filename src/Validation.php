@@ -20,20 +20,20 @@ use Respect\Validation\Validatable;
  *
  * @author Alexis Wurth <awurth.dev@gmail.com>
  */
-final class Validation implements ValidationInterface
+final readonly class Validation implements ValidationInterface
 {
     /**
      * @param array<string, string> $messages
      * @param array<string, string> $globalMessages
      */
     public function __construct(
-        private readonly Validatable $rules,
-        private readonly ?string $property = null,
-        private readonly mixed $default = null,
-        private readonly ?string $message = null,
-        private readonly array $messages = [],
-        private readonly array $globalMessages = [],
-        private readonly mixed $context = null,
+        private Validatable $rules,
+        private ?string $property = null,
+        private mixed $default = null,
+        private ?string $message = null,
+        private array $messages = [],
+        private array $globalMessages = [],
+        private mixed $context = null,
     ) {
     }
 

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
-final class ValidatedValue implements ValidatedValueInterface
+final readonly class ValidatedValue implements ValidatedValueInterface
 {
-    public function __construct(private readonly ValidationInterface $validation, private readonly mixed $value)
+    public function __construct(private ValidationInterface $validation, private mixed $value)
     {
     }
 

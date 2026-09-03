@@ -2,10 +2,10 @@ default:
     @just --list
 
 # Run all linters
-lint: cs phpstan
+lint: cs rector phpstan
 
-# Fix coding standards, then run static analysis
-fix: cs-fix phpstan
+# Apply every automated fix, then run static analysis
+fix: rector-fix cs-fix phpstan
 
 # Check coding standards
 cs:
@@ -14,6 +14,14 @@ cs:
 # Fix coding standards
 cs-fix:
     vendor/bin/php-cs-fixer fix -vvv --show-progress=none
+
+# Check for Rector refactorings
+rector:
+    vendor/bin/rector process --dry-run
+
+# Apply Rector refactorings
+rector-fix:
+    vendor/bin/rector process
 
 # Run static analysis
 phpstan:

@@ -12,22 +12,27 @@ The default branch is `5.x` (also the PR target). `3.x` holds the previous, unma
 
 ```bash
 composer install
-php vendor/bin/phpunit
+
+just                     # list every recipe
+just lint                # cs + rector + phpstan, all in check mode, as CI runs them
+just fix                 # rector-fix, then cs-fix, then phpstan
+just test
+just phpstan-baseline    # regenerate the baseline
+
 php vendor/bin/phpunit --filter testValidateWithCustomGlobalMessages
-php vendor/bin/php-cs-fixer fix
-php vendor/bin/php-cs-fixer fix --dry-run --diff   # what CI runs
-php vendor/bin/phpstan analyse
-php vendor/bin/phpstan analyse --generate-baseline=phpstan-baseline.neon
 composer validate --strict
 ```
 
+The `justfile` wraps every tool invocation; `cs`, `cs-fix`, `rector`, `rector-fix` and `phpstan` also exist as individual recipes. Running a single test and `composer validate` have no recipe.
+
 `composer.lock` is gitignored, so every install resolves fresh.
 
-CI (`.github/workflows/ci.yml`) runs on push/PR against `5.x`, split into four jobs:
+CI (`.github/workflows/ci.yml`) runs on push/PR against `5.x`, split into five jobs:
 
 - **Validate composer.json** — `composer validate --strict`, no install.
 - **Coding standards** — the PHP CS Fixer dry-run, pinned to PHP 8.5, the project's minimum, because the fixer can emit syntax the minimum version cannot parse when run on a newer runtime.
 - **Static analysis** — PHPStan at level 10 over `src` and `tests`, configured in `phpstan.dist.neon`. `phpVersion` is pinned to 8.5 so the analysis targets the only supported version rather than the one the runner happens to use.
+- **Rector** — `rector process --dry-run` over `src` and `tests`, configured in `rector.php`: the dead code, code quality, coding style, type declaration, instanceof and PHPUnit prepared sets, the Twig/PHPUnit composer-based sets, and `withPhpSets()`. The dry run exits non-zero as soon as a rule would rewrite something, so drift fails the build like the CS check does. Run it before the fixer, since its output does not follow the CS rules.
 - **Tests** — a 2-entry matrix: PHP 8.5 with the highest resolvable dependencies, plus PHP 8.5 with `--prefer-lowest`. The lowest run is the only thing exercising the `symfony/* ^6.0` and `respect/validation ^2.0` floors, so a change that silently needs a newer minor must raise the constraint rather than relax the job.
 
 `fail-fast` is off, so one failing PHP version does not hide the others.

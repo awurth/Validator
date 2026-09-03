@@ -16,6 +16,7 @@ namespace Awurth\Validator\Tests;
 use Awurth\Validator\Exception\InvalidPropertyOptionsException;
 use Awurth\Validator\Validator;
 use InvalidArgumentException;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,8 +29,10 @@ use Slim\Psr7\Response;
 final class ValidatorTest extends TestCase
 {
     private ServerRequestInterface $request;
+
     private Validator $validator;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->request = new ServerRequestFactory()->createServerRequest('POST', 'http://localhost?username=a_wurth&password=1234');
@@ -66,11 +69,11 @@ final class ValidatorTest extends TestCase
     {
         $errors = $this->validator->validate($this->request, ['username' => V::length(6)]);
 
-        self::assertSame(0, $errors->count());
+        self::assertCount(0, $errors);
 
         $errors = $this->validator->validate($this->request, ['username' => V::length(8)]);
 
-        self::assertSame(1, $errors->count());
+        self::assertCount(1, $errors);
     }
 
     public function testRequestWithRouteArguments(): void
@@ -96,8 +99,8 @@ final class ValidatorTest extends TestCase
 
         self::assertInstanceOf(ServerRequestInterface::class, $handler->request);
 
-        self::assertSame(0, $this->validator->validate($handler->request, ['username' => V::length(6)])->count());
-        self::assertSame(1, $this->validator->validate($handler->request, ['username' => V::length(8)])->count());
+        self::assertCount(0, $this->validator->validate($handler->request, ['username' => V::length(6)]));
+        self::assertCount(1, $this->validator->validate($handler->request, ['username' => V::length(8)]));
     }
 
     public function testArray(): void
@@ -112,14 +115,14 @@ final class ValidatorTest extends TestCase
             'password' => V::notBlank(),
         ]);
 
-        self::assertSame(0, $errors->count());
+        self::assertCount(0, $errors);
 
         $errors = $this->validator->validate($array, [
             'username' => V::notBlank()->length(10),
             'password' => V::notBlank()->length(10),
         ]);
 
-        self::assertSame(2, $errors->count());
+        self::assertCount(2, $errors);
     }
 
     public function testObject(): void
@@ -131,18 +134,18 @@ final class ValidatorTest extends TestCase
             'publicProperty' => V::notBlank(),
         ]);
 
-        self::assertSame(1, $errors->count());
+        self::assertCount(1, $errors);
     }
 
     public function testValue(): void
     {
         $errors = $this->validator->validate(2017, V::numericVal()->between(2010, 2020));
 
-        self::assertSame(0, $errors->count());
+        self::assertCount(0, $errors);
 
         $errors = $this->validator->validate(2021, V::numericVal()->between(2010, 2020));
 
-        self::assertSame(1, $errors->count());
+        self::assertCount(1, $errors);
     }
 
     public function testValidateWithErrors(): void
@@ -151,7 +154,7 @@ final class ValidatorTest extends TestCase
             'username' => V::length(8),
         ]);
 
-        self::assertSame(1, $errors->count());
+        self::assertCount(1, $errors);
 
         $error = $errors->get(0);
 
@@ -168,7 +171,7 @@ final class ValidatorTest extends TestCase
             'username' => V::length(8),
         ]);
 
-        self::assertSame(1, $errors->count());
+        self::assertCount(1, $errors);
         self::assertSame('Too short!', $errors->get(0)->getMessage());
     }
 
@@ -179,7 +182,7 @@ final class ValidatorTest extends TestCase
             'password' => V::length(8),
         ], ['length' => 'Too short!']);
 
-        self::assertSame(2, $errors->count());
+        self::assertCount(2, $errors);
         self::assertSame('Too short!', $errors->get(0)->getMessage());
         self::assertSame('Too short!', $errors->get(1)->getMessage());
     }
@@ -192,7 +195,7 @@ final class ValidatorTest extends TestCase
             'password' => V::length(8)->alpha(),
         ], ['alpha' => 'Only letters are allowed']);
 
-        self::assertSame(3, $errors->count());
+        self::assertCount(3, $errors);
         self::assertSame('Too short!', $errors->get(0)->getMessage());
         self::assertSame('Too short!', $errors->get(1)->getMessage());
         self::assertSame('Only letters are allowed', $errors->get(2)->getMessage());
@@ -211,7 +214,7 @@ final class ValidatorTest extends TestCase
             'password' => V::length(8),
         ]);
 
-        self::assertSame(2, $errors->count());
+        self::assertCount(2, $errors);
         self::assertSame('username', $errors->get(0)->getValidation()->getProperty());
         self::assertSame('Too short!', $errors->get(0)->getMessage());
         self::assertSame('password', $errors->get(1)->getValidation()->getProperty());
@@ -249,7 +252,7 @@ final class ValidatorTest extends TestCase
             ],
         ]);
 
-        self::assertSame(2, $errors->count());
+        self::assertCount(2, $errors);
         self::assertSame('username', $errors->get(0)->getValidation()->getProperty());
         self::assertSame('Bad username.', $errors->get(0)->getMessage());
         self::assertSame('password', $errors->get(1)->getValidation()->getProperty());

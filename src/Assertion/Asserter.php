@@ -24,15 +24,15 @@ use Respect\Validation\Exceptions\NestedValidationException;
 use function array_replace;
 use function is_array;
 
-final class Asserter implements AsserterInterface
+final readonly class Asserter implements AsserterInterface
 {
     /**
      * @param array<string, string> $messages
      */
     public function __construct(
-        private readonly ValidationFailureCollectionFactoryInterface $validationFailureCollectionFactory,
-        private readonly ValidationFailureFactoryInterface $validationFailureFactory,
-        private readonly array $messages = [],
+        private ValidationFailureCollectionFactoryInterface $validationFailureCollectionFactory,
+        private ValidationFailureFactoryInterface $validationFailureFactory,
+        private array $messages = [],
     ) {
     }
 
@@ -50,7 +50,7 @@ final class Asserter implements AsserterInterface
 
         try {
             $validation->getRules()->assert($subject);
-        } catch (NestedValidationException $exception) {
+        } catch (NestedValidationException $nestedValidationException) {
             $message = $validation->getMessage();
             if (null !== $message) {
                 $failures->add(
@@ -60,7 +60,7 @@ final class Asserter implements AsserterInterface
                 return $failures;
             }
 
-            $exceptionMessages = $this->extractMessagesFromException($exception, $validation);
+            $exceptionMessages = $this->extractMessagesFromException($nestedValidationException, $validation);
             foreach ($exceptionMessages as $ruleName => $message) {
                 $failures->add(
                     $this->validationFailureFactory->create($validation, $message, $subject, $ruleName),

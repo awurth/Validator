@@ -18,8 +18,8 @@ final class ObjectValueReader implements ValueReaderInterface
      */
     public function getValue(mixed $subject, string $path, mixed $default = null): mixed
     {
-        return self::getPropertyAccessor()->isReadable($subject, $path)
-            ? self::getPropertyAccessor()->getValue($subject, $path)
+        return $this->getPropertyAccessor()->isReadable($subject, $path)
+            ? $this->getPropertyAccessor()->getValue($subject, $path)
             : $default
         ;
     }
@@ -29,7 +29,7 @@ final class ObjectValueReader implements ValueReaderInterface
         return is_object($subject);
     }
 
-    private static function getPropertyAccessor(): PropertyAccessor
+    private function getPropertyAccessor(): PropertyAccessor
     {
         if (!self::$propertyAccessor instanceof PropertyAccessor) {
             self::$propertyAccessor = PropertyAccess::createPropertyAccessor();

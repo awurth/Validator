@@ -17,6 +17,7 @@ use Awurth\Validator\Assertion\DataCollectorAsserterInterface;
 use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
 use Awurth\Validator\Failure\ValidationFailureInterface;
 use Awurth\Validator\StatefulValidatorInterface;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -53,6 +54,7 @@ final class ValidatorExtension extends AbstractExtension
         }
     }
 
+    #[Override]
     public function getFunctions(): array
     {
         $functions = [

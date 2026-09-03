@@ -27,7 +27,7 @@ final class ValidationFactory implements ValidationFactoryInterface
 
     public function create(array $options, ?string $property = null, mixed $default = null): ValidationInterface
     {
-        $options = self::getOptionsResolver()->resolve($options);
+        $options = $this->getOptionsResolver()->resolve($options);
 
         return new Validation(
             $options['rules'],
@@ -40,7 +40,7 @@ final class ValidationFactory implements ValidationFactoryInterface
         );
     }
 
-    private static function getOptionsResolver(): OptionsResolver
+    private function getOptionsResolver(): OptionsResolver
     {
         if (!self::$optionsResolver instanceof OptionsResolver) {
             self::$optionsResolver = new OptionsResolver()

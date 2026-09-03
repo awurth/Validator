@@ -12,9 +12,9 @@ use Awurth\Validator\ValidatedValueCollection;
 use Awurth\Validator\ValidatedValueCollectionInterface;
 use Awurth\Validator\ValidationInterface;
 
-final class NoopDataCollectorAsserter implements DataCollectorAsserterInterface
+final readonly class NoopDataCollectorAsserter implements DataCollectorAsserterInterface
 {
-    public function __construct(private readonly ValidatedValueCollectionInterface $data = new ValidatedValueCollection())
+    public function __construct(private ValidatedValueCollectionInterface $data = new ValidatedValueCollection())
     {
     }
 

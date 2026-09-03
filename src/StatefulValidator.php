@@ -19,13 +19,13 @@ use Awurth\Validator\Failure\ValidationFailureCollectionFactoryInterface;
 use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
 use Respect\Validation\Validatable;
 
-final class StatefulValidator implements StatefulValidatorInterface
+final readonly class StatefulValidator implements StatefulValidatorInterface
 {
     private ValidationFailureCollectionInterface $failures;
 
     public function __construct(
-        private readonly ValidationFailureCollectionFactoryInterface $validationFailureCollectionFactory,
-        private readonly ValidatorInterface $validator,
+        private ValidationFailureCollectionFactoryInterface $validationFailureCollectionFactory,
+        private ValidatorInterface $validator,
     ) {
         $this->failures = $this->validationFailureCollectionFactory->create();
     }

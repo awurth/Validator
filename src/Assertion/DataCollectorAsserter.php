@@ -19,11 +19,11 @@ use Awurth\Validator\ValidatedValueCollection;
 use Awurth\Validator\ValidatedValueCollectionInterface;
 use Awurth\Validator\ValidationInterface;
 
-final class DataCollectorAsserter implements DataCollectorAsserterInterface
+final readonly class DataCollectorAsserter implements DataCollectorAsserterInterface
 {
-    private readonly ValidatedValueCollectionInterface $data;
+    private ValidatedValueCollectionInterface $data;
 
-    public function __construct(private readonly AsserterInterface $asserter)
+    public function __construct(private AsserterInterface $asserter)
     {
         $this->data = new ValidatedValueCollection();
     }
