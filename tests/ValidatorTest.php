@@ -224,7 +224,7 @@ final class ValidatorTest extends TestCase
     public function testValidateWithWrongCustomSingleMessageType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The option "message" with value 10 is expected to be of type "null" or "string", but is of type "int".');
+        $this->expectExceptionMessageIsOrContains('The option "message" with value 10 is expected to be of type "null" or "string", but is of type "int".');
 
         $this->validator->validate($this->request, [
             'username' => [

@@ -30,7 +30,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.41",
         "phpstan/phpstan": "^2.2",
-        "phpunit/phpunit": "^10.5",
+        "phpunit/phpunit": "^13",
         "psr/http-message": "^1.0 || ^2.0",
         "rector/rector": "^2.6",
         "slim/psr7": "^1.6",
