@@ -59,14 +59,14 @@ final class Validator implements ValidatorInterface
                 'rules' => $rules,
                 'globalMessages' => $messages,
                 'context' => $context,
-            ]), $messages);
+            ]));
         }
 
         if (!$subject instanceof Request && !\is_object($subject) && !\is_array($subject)) {
             $rules['globalMessages'] = $messages;
             $rules['context'] = $context;
 
-            return $this->asserter->assert($subject, $this->validationFactory->create($rules), $messages);
+            return $this->asserter->assert($subject, $this->validationFactory->create($rules));
         }
 
         if ([] === $rules) {
@@ -90,11 +90,11 @@ final class Validator implements ValidatorInterface
             $value = $valueReader->getValue($subject, $property, $validation->getDefault());
 
             if (!$failures instanceof ValidationFailureCollectionInterface) {
-                $failures = $this->asserter->assert($value, $validation, $messages);
+                $failures = $this->asserter->assert($value, $validation);
                 continue;
             }
 
-            $failures->addAll($this->asserter->assert($value, $validation, $messages));
+            $failures->addAll($this->asserter->assert($value, $validation));
         }
 
         return $failures;
