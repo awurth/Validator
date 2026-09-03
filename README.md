@@ -5,7 +5,7 @@
 [![License](https://poser.pugx.org/awurth/slim-validation/license)](https://packagist.org/packages/awurth/slim-validation)
 
 [![Total Downloads](https://poser.pugx.org/awurth/slim-validation/downloads)](https://packagist.org/packages/awurth/slim-validation)
-[![Monthly Downloads](http://poser.pugx.org/awurth/slim-validation/d/monthly)](https://packagist.org/packages/awurth/slim-validation)
+[![Monthly Downloads](https://poser.pugx.org/awurth/slim-validation/d/monthly)](https://packagist.org/packages/awurth/slim-validation)
 
 A wrapper around the [Respect Validation](https://github.com/Respect/Validation) PHP validation library for easier error handling and display
 
@@ -15,12 +15,17 @@ A wrapper around the [Respect Validation](https://github.com/Respect/Validation)
 ## Installation
 
 ``` bash
-$ composer require awurth/slim-validation
+$ composer require awurth/slim-validation "^5.0"
 ```
 
 ## Documentation
 
-* [**5.x**](https://github.com/awurth/SlimValidation/tree/5.x/docs) (current, PHP >= 8.1) 
+* [**5.x**](docs/index.md) (current, PHP >= 8.1)
+  * [Validating subjects](docs/subjects.md)
+  * [Rule options](docs/options.md)
+  * [Working with failures](docs/failures.md)
+  * [Twig integration](docs/twig.md)
+  * [Extending](docs/extending.md)
 * [**3.4**](https://github.com/awurth/SlimValidation/tree/3.x/docs) (outdated, PHP >= 7.1)
 
 ## Usage

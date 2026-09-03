@@ -1,12 +1,18 @@
-# Installation
+# Slim Validation
+
+A wrapper around [Respect Validation](https://github.com/Respect/Validation) that returns filterable validation failure objects instead of throwing exceptions.
+
+Despite the name it has no dependency on Slim and works in any PHP project.
+
+## Installation
 
 ``` bash
-$ composer require awurth/slim-validation
+$ composer require awurth/slim-validation "^5.0"
 ```
 
-## Usage
+Requires PHP 8.1 or newer.
 
-The following example shows how to validate that a string is at least 10 characters long:
+## Quick start
 
 ``` php
 use Awurth\Validator\Validator;
@@ -16,20 +22,20 @@ $validator = Validator::create();
 $failures = $validator->validate('Too short', V::notBlank()->length(min: 10));
 
 if (0 !== $failures->count()) {
-    // Validation failed: display errors
     foreach ($failures as $failure) {
         echo $failure->getMessage();
     }
 }
 ```
 
-The `validate()` method returns a list of validation failures as an object that implements [`ValidationFailureCollectionInterface`](../src/Failure/ValidationFailureCollectionInterface.php). If you have lots of validation failures, you can filter them with a callback:
+`validate()` never throws on invalid input. It returns a collection of failures, empty when the subject is valid.
 
-``` php
-use Awurth\Validator\Failure\ValidationFailureInterface;
+The validator is stateless: it holds nothing between calls, so a single instance can be reused.
 
-$failures = $validator->validate(/* ... */);
-$filteredFailures = $failures->filter(static function (ValidationFailureInterface $failure, int $index): bool {
-    return $failure->getRuleName() === 'notBlank';
-});
-```
+## Guide
+
+* [Validating subjects](subjects.md) — values, arrays, objects and PSR-7 requests
+* [Rule options](options.md) — defaults, custom messages and context
+* [Working with failures](failures.md) — reading, filtering and counting failures
+* [Twig integration](twig.md) — displaying errors in templates
+* [Extending](extending.md) — custom value readers, asserters and factories
