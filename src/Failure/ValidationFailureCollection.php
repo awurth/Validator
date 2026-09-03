@@ -106,6 +106,12 @@ final class ValidationFailureCollection implements ValidationFailureCollectionIn
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
+        if (null === $offset) {
+            $this->add($value);
+
+            return;
+        }
+
         $this->set($offset, $value);
     }
 
