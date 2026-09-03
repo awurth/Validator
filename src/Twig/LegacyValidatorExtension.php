@@ -31,12 +31,12 @@ final class LegacyValidatorExtension extends AbstractExtension
     /**
      * An array of names for Twig functions.
      *
-     * @var string[]
+     * @var array<string, string>
      */
     private array $functionNames;
 
     /**
-     * @param string[] $functionNames An array of names for Twig functions
+     * @param array<string, string> $functionNames An array of names for Twig functions
      */
     public function __construct(
         private readonly StatefulValidatorInterface $validator,
@@ -85,7 +85,7 @@ final class LegacyValidatorExtension extends AbstractExtension
     }
 
     /**
-     * @return string[]
+     * @return array<array-key, string>
      */
     public function getErrors(?string $key = null, mixed $context = null): array
     {

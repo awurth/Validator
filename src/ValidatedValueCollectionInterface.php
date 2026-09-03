@@ -31,7 +31,7 @@ interface ValidatedValueCollectionInterface extends \ArrayAccess, \Countable, \T
     /**
      * Adds a list of validated value to this list.
      *
-     * @param ValidatedValueInterface[] $values
+     * @param iterable<int, ValidatedValueInterface> $values
      */
     public function addAll(iterable $values): void;
 

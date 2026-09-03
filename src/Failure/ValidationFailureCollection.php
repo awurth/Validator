@@ -23,12 +23,12 @@ namespace Awurth\Validator\Failure;
 final class ValidationFailureCollection implements ValidationFailureCollectionInterface, \IteratorAggregate
 {
     /**
-     * @var ValidationFailureInterface[]
+     * @var array<int, ValidationFailureInterface>
      */
     private array $failures = [];
 
     /**
-     * @param ValidationFailureInterface[] $failures
+     * @param iterable<int, ValidationFailureInterface> $failures
      */
     public function __construct(iterable $failures = [])
     {

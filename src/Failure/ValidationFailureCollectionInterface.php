@@ -31,7 +31,7 @@ interface ValidationFailureCollectionInterface extends \ArrayAccess, \Countable,
     /**
      * Adds a list of validation failures to this list.
      *
-     * @param ValidationFailureInterface[] $failures
+     * @param iterable<int, ValidationFailureInterface> $failures
      */
     public function addAll(iterable $failures): void;
 

@@ -23,7 +23,7 @@ interface ValidationFailureCollectionFactoryInterface
     /**
      * Creates a new validation failure collection.
      *
-     * @param ValidationFailureInterface[] $failures
+     * @param iterable<int, ValidationFailureInterface> $failures
      */
     public function create(iterable $failures = []): ValidationFailureCollectionInterface;
 }

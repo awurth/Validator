@@ -23,12 +23,12 @@ namespace Awurth\Validator;
 final class ValidatedValueCollection implements ValidatedValueCollectionInterface, \IteratorAggregate
 {
     /**
-     * @var ValidatedValueInterface[]
+     * @var array<int, ValidatedValueInterface>
      */
     private array $values = [];
 
     /**
-     * @param ValidatedValueInterface[] $values
+     * @param iterable<int, ValidatedValueInterface> $values
      */
     public function __construct(iterable $values = [])
     {

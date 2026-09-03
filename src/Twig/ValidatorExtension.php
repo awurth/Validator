@@ -30,12 +30,12 @@ final class ValidatorExtension extends AbstractExtension
     /**
      * An array of names for Twig functions.
      *
-     * @var string[]
+     * @var array<string, string>
      */
     private array $functionNames;
 
     /**
-     * @param string[] $functionNames An array of names for Twig functions
+     * @param array<string, string> $functionNames An array of names for Twig functions
      */
     public function __construct(
         private readonly StatefulValidatorInterface $validator,
