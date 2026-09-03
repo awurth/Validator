@@ -44,10 +44,10 @@ Called without a callback, `error()` returns the first failure and `errors()` re
 Callbacks are the same ones `filter()` and `find()` take, so filtering by property happens in the template:
 
 ``` twig
-{% set failure = error(failure => failure.validation.property == 'username') %}
+{% set usernameError = error(failure => failure.validation.property == 'username') %}
 
-{% if failure %}
-    <span class="error">{{ failure.message }}</span>
+{% if usernameError %}
+    <span class="error">{{ usernameError.message }}</span>
 {% endif %}
 ```
 
@@ -79,7 +79,7 @@ $twig->addExtension(new ValidatorExtension($validator, $asserter));
 Passing the asserter adds a fourth function, `val()`, which takes a callback over the collected values:
 
 ``` twig
-<input type="text" name="username" value="{{ val(v => v.validation.property == 'username') }}">
+<input type="text" name="username" value="{{ val(value => value.validation.property == 'username') }}">
 ```
 
 ## Legacy extension

@@ -24,10 +24,12 @@ $failures = $validator->validate('a_wurth', V::length(min: 10));
 When the subject is an array, `$rules` maps each key to its rules.
 
 ``` php
-$failures = $validator->validate([
+$data = [
     'username' => 'a_wurth',
     'password' => '1234',
-], [
+];
+
+$failures = $validator->validate($data, [
     'username' => V::length(min: 3),
     'password' => V::length(min: 8),
 ]);

@@ -43,7 +43,7 @@ $first = $failures->find(
 );
 ```
 
-Grouping failures by property is a filter per property:
+The collection has no grouping helper; loop and key by property:
 
 ``` php
 $byProperty = [];

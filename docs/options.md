@@ -75,7 +75,7 @@ $validator = Validator::create(Asserter::create([
 
 $failures = $validator->validate(['username' => ''], [
     'username' => ['rules' => V::notBlank()],
-], [
+], messages: [
     'notBlank' => 'Overrides the asserter default.',
 ]);
 ```
@@ -87,7 +87,7 @@ A property level `message` sits outside this ladder: it wins over all three and 
 `$context` is attached to every `Validation` produced by the call and is not used by the library itself. It exists so you can tag failures and filter them later.
 
 ``` php
-$failures = $validator->validate($subject, $rules, [], 'registration');
+$failures = $validator->validate($subject, $rules, context: 'registration');
 
 foreach ($failures as $failure) {
     $failure->getValidation()->getContext(); // 'registration'
