@@ -13,14 +13,22 @@ declare(strict_types=1);
 
 namespace Awurth\Validator\Failure;
 
+use ArrayIterator;
+use IteratorAggregate;
+use OutOfBoundsException;
+use Traversable;
+
+use function count;
+use function sprintf;
+
 /**
  * Holds a list of validation failures.
  *
  * @author Alexis Wurth <awurth.dev@gmail.com>
  *
- * @implements \IteratorAggregate<int, ValidationFailureInterface>
+ * @implements IteratorAggregate<int, ValidationFailureInterface>
  */
-final class ValidationFailureCollection implements ValidationFailureCollectionInterface, \IteratorAggregate
+final class ValidationFailureCollection implements ValidationFailureCollectionInterface, IteratorAggregate
 {
     /**
      * @var array<int, ValidationFailureInterface>
@@ -73,7 +81,7 @@ final class ValidationFailureCollection implements ValidationFailureCollectionIn
     public function get(int $offset): ValidationFailureInterface
     {
         if (!isset($this->failures[$offset])) {
-            throw new \OutOfBoundsException(\sprintf('The offset "%s" does not exist.', $offset));
+            throw new OutOfBoundsException(sprintf('The offset "%s" does not exist.', $offset));
         }
 
         return $this->failures[$offset];
@@ -122,11 +130,11 @@ final class ValidationFailureCollection implements ValidationFailureCollectionIn
 
     public function count(): int
     {
-        return \count($this->failures);
+        return count($this->failures);
     }
 
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->failures);
+        return new ArrayIterator($this->failures);
     }
 }

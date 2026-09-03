@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-// @php-cs-fixer-ignore protected_to_private
+/** @php-cs-fixer-ignore protected_to_private */
 
 namespace Awurth\Validator\Tests;
 

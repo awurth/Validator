@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
+use ArrayAccess;
+use Countable;
+use Traversable;
+
 /**
  * Holds a list of validated values.
  *
  * @author Alexis Wurth <awurth.dev@gmail.com>
  *
- * @extends \ArrayAccess<int, ValidatedValueInterface>
- * @extends \Traversable<int, ValidatedValueInterface>
+ * @extends ArrayAccess<int, ValidatedValueInterface>
+ * @extends Traversable<int, ValidatedValueInterface>
  */
-interface ValidatedValueCollectionInterface extends \ArrayAccess, \Countable, \Traversable
+interface ValidatedValueCollectionInterface extends ArrayAccess, Countable, Traversable
 {
     /**
      * Adds a validated value to the list.

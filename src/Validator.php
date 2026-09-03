@@ -21,8 +21,14 @@ use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
 use Awurth\Validator\Failure\ValidationFailureFactory;
 use Awurth\Validator\ValueReader\ValueReaderRegistry;
 use Awurth\Validator\ValueReader\ValueReaderRegistryInterface;
+use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validatable;
+
+use function get_debug_type;
+use function is_array;
+use function is_object;
+use function sprintf;
 
 /**
  * The Validator.
@@ -62,7 +68,7 @@ final class Validator implements ValidatorInterface
             ]));
         }
 
-        if (!$subject instanceof Request && !\is_object($subject) && !\is_array($subject)) {
+        if (!$subject instanceof Request && !is_object($subject) && !is_array($subject)) {
             $rules['globalMessages'] = $messages;
             $rules['context'] = $context;
 
@@ -70,7 +76,7 @@ final class Validator implements ValidatorInterface
         }
 
         if ([] === $rules) {
-            throw new \InvalidArgumentException('Rules cannot be empty');
+            throw new InvalidArgumentException('Rules cannot be empty');
         }
 
         $valueReader = $this->valueReaderRegistry->getValueReaderFor($subject);
@@ -79,8 +85,8 @@ final class Validator implements ValidatorInterface
         foreach ($rules as $property => $options) {
             if ($options instanceof Validatable) {
                 $options = ['rules' => $options];
-            } elseif (!\is_array($options)) {
-                throw new InvalidPropertyOptionsException(\sprintf('Expected an array or an instance of "%s", "%s" given', Validatable::class, \get_debug_type($options)));
+            } elseif (!is_array($options)) {
+                throw new InvalidPropertyOptionsException(sprintf('Expected an array or an instance of "%s", "%s" given', Validatable::class, get_debug_type($options)));
             }
 
             $options['globalMessages'] = $messages;
@@ -108,7 +114,7 @@ final class Validator implements ValidatorInterface
     private static function assertHasRules(array $options, ?string $property = null): array
     {
         if (!($options['rules'] ?? null) instanceof Validatable) {
-            throw new InvalidPropertyOptionsException(\sprintf('The "rules" option must be an instance of "%s"%s, "%s" given', Validatable::class, null === $property ? '' : \sprintf(' for property "%s"', $property), \get_debug_type($options['rules'] ?? null)));
+            throw new InvalidPropertyOptionsException(sprintf('The "rules" option must be an instance of "%s"%s, "%s" given', Validatable::class, null === $property ? '' : sprintf(' for property "%s"', $property), get_debug_type($options['rules'] ?? null)));
         }
 
         return $options;

@@ -21,6 +21,9 @@ use Awurth\Validator\Failure\ValidationFailureFactoryInterface;
 use Awurth\Validator\ValidationInterface;
 use Respect\Validation\Exceptions\NestedValidationException;
 
+use function array_replace;
+use function is_array;
+
 final class Asserter implements AsserterInterface
 {
     /**
@@ -51,7 +54,7 @@ final class Asserter implements AsserterInterface
             $message = $validation->getMessage();
             if (null !== $message) {
                 $failures->add(
-                    $this->validationFailureFactory->create($validation, $message, $subject)
+                    $this->validationFailureFactory->create($validation, $message, $subject),
                 );
 
                 return $failures;
@@ -60,7 +63,7 @@ final class Asserter implements AsserterInterface
             $exceptionMessages = $this->extractMessagesFromException($exception, $validation);
             foreach ($exceptionMessages as $ruleName => $message) {
                 $failures->add(
-                    $this->validationFailureFactory->create($validation, $message, $subject, $ruleName)
+                    $this->validationFailureFactory->create($validation, $message, $subject, $ruleName),
                 );
             }
         }
@@ -73,11 +76,11 @@ final class Asserter implements AsserterInterface
      */
     private function extractMessagesFromException(NestedValidationException $exception, ValidationInterface $validation): array
     {
-        $definedMessages = \array_replace($this->messages, $validation->getGlobalMessages(), $validation->getMessages());
+        $definedMessages = array_replace($this->messages, $validation->getGlobalMessages(), $validation->getMessages());
 
         $errors = [];
         foreach ($exception->getMessages($definedMessages) as $name => $error) {
-            if (\is_array($error)) {
+            if (is_array($error)) {
                 $errors = [...$errors, ...$error];
             } else {
                 $errors[$name] = $error;

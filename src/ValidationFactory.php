@@ -43,7 +43,7 @@ final class ValidationFactory implements ValidationFactoryInterface
     private static function getOptionsResolver(): OptionsResolver
     {
         if (!self::$optionsResolver instanceof OptionsResolver) {
-            self::$optionsResolver = (new OptionsResolver())
+            self::$optionsResolver = new OptionsResolver()
                 ->setDefaults([
                     'default' => null,
                     'message' => null,

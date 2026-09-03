@@ -15,6 +15,7 @@ namespace Awurth\Validator\Tests;
 
 use Awurth\Validator\Exception\InvalidPropertyOptionsException;
 use Awurth\Validator\Validator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,7 +32,7 @@ final class ValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->request = (new ServerRequestFactory())->createServerRequest('POST', 'http://localhost?username=a_wurth&password=1234');
+        $this->request = new ServerRequestFactory()->createServerRequest('POST', 'http://localhost?username=a_wurth&password=1234');
 
         $this->validator = Validator::create();
     }
@@ -56,7 +57,7 @@ final class ValidatorTest extends TestCase
 
     public function testValidateWithRulesEmptyArray(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->validator->validate($this->request, []);
     }
@@ -89,7 +90,7 @@ final class ValidatorTest extends TestCase
         };
 
         $app->addRoutingMiddleware()->process(
-            (new ServerRequestFactory())->createServerRequest('GET', 'http://localhost/users/a_wurth'),
+            new ServerRequestFactory()->createServerRequest('GET', 'http://localhost/users/a_wurth'),
             $handler,
         );
 
@@ -219,7 +220,7 @@ final class ValidatorTest extends TestCase
 
     public function testValidateWithWrongCustomSingleMessageType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The option "message" with value 10 is expected to be of type "null" or "string", but is of type "int".');
 
         $this->validator->validate($this->request, [

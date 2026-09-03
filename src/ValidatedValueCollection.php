@@ -13,14 +13,22 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
+use ArrayIterator;
+use IteratorAggregate;
+use OutOfBoundsException;
+use Traversable;
+
+use function count;
+use function sprintf;
+
 /**
  * Holds a list of validated values.
  *
  * @author Alexis Wurth <awurth.dev@gmail.com>
  *
- * @implements \IteratorAggregate<int, ValidatedValueInterface>
+ * @implements IteratorAggregate<int, ValidatedValueInterface>
  */
-final class ValidatedValueCollection implements ValidatedValueCollectionInterface, \IteratorAggregate
+final class ValidatedValueCollection implements ValidatedValueCollectionInterface, IteratorAggregate
 {
     /**
      * @var array<int, ValidatedValueInterface>
@@ -50,7 +58,7 @@ final class ValidatedValueCollection implements ValidatedValueCollectionInterfac
     public function get(int $offset): ValidatedValueInterface
     {
         if (!isset($this->values[$offset])) {
-            throw new \OutOfBoundsException(\sprintf('The offset "%s" does not exist.', $offset));
+            throw new OutOfBoundsException(sprintf('The offset "%s" does not exist.', $offset));
         }
 
         return $this->values[$offset];
@@ -99,11 +107,11 @@ final class ValidatedValueCollection implements ValidatedValueCollectionInterfac
 
     public function count(): int
     {
-        return \count($this->values);
+        return count($this->values);
     }
 
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->values);
+        return new ArrayIterator($this->values);
     }
 }

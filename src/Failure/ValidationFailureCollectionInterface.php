@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace Awurth\Validator\Failure;
 
+use ArrayAccess;
+use Countable;
+use Traversable;
+
 /**
  * Holds a list of validation failures.
  *
  * @author Alexis Wurth <awurth.dev@gmail.com>
  *
- * @extends \ArrayAccess<int, ValidationFailureInterface>
- * @extends \Traversable<int, ValidationFailureInterface>
+ * @extends ArrayAccess<int, ValidationFailureInterface>
+ * @extends Traversable<int, ValidationFailureInterface>
  */
-interface ValidationFailureCollectionInterface extends \ArrayAccess, \Countable, \Traversable
+interface ValidationFailureCollectionInterface extends ArrayAccess, Countable, Traversable
 {
     /**
      * Adds a validation failure to the list.
