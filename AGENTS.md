@@ -32,9 +32,9 @@ CI (`.github/workflows/ci.yml`) runs on push/PR against `5.x`, split into four j
 
 `fail-fast` is off, so one failing PHP version does not hide the others.
 
-`phpstan-baseline.neon` holds the 24 pre-existing errors from the moment PHPStan was introduced, and `phpstan.dist.neon` includes it, so the analysis is only green because of it. Regenerate it deliberately, never to make a new error disappear — a new entry in the baseline is a defect being filed, not fixed.
+`phpstan-baseline.neon` holds the 11 pre-existing errors left from the moment PHPStan was introduced, and `phpstan.dist.neon` includes it, so the analysis is only green because of it. Regenerate it deliberately, never to make a new error disappear — a new entry in the baseline is a defect being filed, not fixed.
 
-Those 24 sit in four files: `Twig/LegacyValidatorExtension.php` (11), `Twig/ValidatorExtension.php` (5), `ValidationFactory.php` (4) and `Assertion/Asserter.php` (2). Everything else is clean at level 10. Five of the Twig entries are `filter()`/`find()` being absent from `ValidationFailureCollectionInterface` while both extensions call them on that type — a real defect, not noise. The `ValidationFactory` four are `OptionsResolver::resolve()` returning `array<string, mixed>`, which level 9 will not let through to a typed constructor.
+Those 11 sit in three files: `Twig/ValidatorExtension.php` (5), `ValidationFactory.php` (4) and `Assertion/Asserter.php` (2). Everything else is clean at level 10. Two of the Twig entries are `filter()`/`find()` being absent from `ValidationFailureCollectionInterface` while the extension calls them on that type — a real defect, not noise. The `ValidationFactory` four are `OptionsResolver::resolve()` returning `array<string, mixed>`, which level 9 will not let through to a typed constructor.
 
 ## Architecture
 
@@ -51,7 +51,7 @@ The pieces behind that:
 - **`Assertion\Asserter`** runs `$rules->assert()`, catches `NestedValidationException`, and converts it into failures. A `Validation` with a non-null `message` short-circuits to exactly one failure; otherwise one failure per rule message, with message precedence: asserter-level defaults < `globalMessages` (the `validate()` `$messages` argument) < per-property `messages`.
 - **`StatefulValidator`** decorates a `ValidatorInterface` and accumulates failures across calls. It exists solely because the Twig extensions need to query failures after the fact.
 - **`Assertion\DataCollectorAsserter`** decorates an `AsserterInterface` and records *every* validated value (valid included) as a `ValidatedValueCollection`; that is what powers the Twig `val()` function.
-- **`Twig\ValidatorExtension`** exposes `error()`/`errors()`/`has_errors()` taking callbacks. `Twig\LegacyValidatorExtension` is the deprecated v4-style key-based API, kept until v6 — do not add features to it.
+- **`Twig\ValidatorExtension`** exposes `error()`/`errors()`/`has_errors()` taking callbacks.
 
 ## Conventions
 

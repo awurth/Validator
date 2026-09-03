@@ -15,72 +15,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Awurth\\Validator\\Failure\\ValidationFailureCollectionInterface\:\:filter\(\)\.$#'
 			identifier: method.notFound
-			count: 2
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Call to an undefined method Awurth\\Validator\\Failure\\ValidationFailureCollectionInterface\:\:find\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Cannot call method get\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Cannot call method getData\(\) on Awurth\\Validator\\Assertion\\DataCollectorAsserterInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Cannot call method getMessage\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Cannot call method has\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Cannot cast mixed to int\.$#'
-			identifier: cast.int
-			count: 2
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Method Awurth\\Validator\\Twig\\LegacyValidatorExtension\:\:getError\(\) has parameter \$index with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Method Awurth\\Validator\\Twig\\LegacyValidatorExtension\:\:getError\(\) should return string\|null but returns mixed\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(Awurth\\Validator\\Failure\\ValidationFailureInterface\)\: string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Parameter \#1 \$iterator of function iterator_to_array expects Traversable, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Twig/LegacyValidatorExtension.php
-
-		-
-			message: '#^Call to an undefined method Awurth\\Validator\\Failure\\ValidationFailureCollectionInterface\:\:filter\(\)\.$#'
-			identifier: method.notFound
 			count: 1
 			path: src/Twig/ValidatorExtension.php
 
@@ -131,3 +65,4 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/ValidationFactory.php
+
