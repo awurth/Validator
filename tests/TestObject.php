@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+// @php-cs-fixer-ignore protected_to_private
+
 namespace Awurth\Validator\Tests;
 
 final class TestObject
@@ -18,7 +20,7 @@ final class TestObject
     public function __construct(
         private mixed $privateProperty = null,
         protected mixed $protectedProperty = null,
-        public mixed $publicProperty = null
+        public mixed $publicProperty = null,
     ) {
     }
 
