@@ -1,5 +1,14 @@
 # Changelog
 
+## v5.1.0
+
+* Allow Symfony 8
+* Fixed route arguments never being read from PSR-7 requests
+* Fixed `$collection[] = $value` throwing instead of appending on `ValidationFailureCollection` and `ValidatedValueCollection`
+* An invalid `rules` option now throws `InvalidPropertyOptionsException` instead of Symfony's `InvalidOptionsException`
+* `Validator` no longer passes a discarded third argument to `AsserterInterface::assert()`
+* Added array shapes and value types to the PHPDoc of the interfaces
+
 ## v5.0.1
 
 * Allow Symfony 7
