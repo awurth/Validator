@@ -6,7 +6,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 `awurth/slim-validation`: a standalone library (no framework, no app) wrapping [respect/validation](https://github.com/Respect/Validation) v2 to produce filterable validation failure objects instead of raw exceptions. Despite the name it has no Slim dependency; Slim/PSR-7 and Twig are dev-only.
 
-The default branch is `5.x` (also the PR target). `3.x` holds the previous, unmaintained major.
+The default branch is `6.x` (also the PR target). `5.x` holds the previous major, `3.x` the unmaintained one before it.
 
 ## Commands
 
@@ -27,7 +27,7 @@ The `justfile` wraps every tool invocation; `cs`, `cs-fix`, `rector`, `rector-fi
 
 `composer.lock` is gitignored, so every install resolves fresh.
 
-CI (`.github/workflows/ci.yml`) runs on push/PR against `5.x`, split into five jobs:
+CI (`.github/workflows/ci.yml`) runs on push/PR against `6.x` and `5.x`, split into five jobs:
 
 - **Validate composer.json** — `composer validate --strict`, no install.
 - **Coding standards** — the PHP CS Fixer dry-run, pinned to PHP 8.5, the project's minimum, because the fixer can emit syntax the minimum version cannot parse when run on a newer runtime.

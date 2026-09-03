@@ -7,7 +7,7 @@ Despite the package name it has no dependency on Slim and works in any PHP proje
 ## Installation
 
 ``` bash
-$ composer require awurth/slim-validation "^5.0"
+$ composer require awurth/slim-validation
 ```
 
 Requires PHP 8.5 or newer.

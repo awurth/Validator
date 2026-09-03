@@ -15,17 +15,18 @@ A wrapper around the [Respect Validation](https://github.com/Respect/Validation)
 ## Installation
 
 ``` bash
-$ composer require awurth/slim-validation "^5.0"
+$ composer require awurth/slim-validation
 ```
 
 ## Documentation
 
-* [**5.x**](docs/index.md) (current, PHP >= 8.5)
+* [**6.x**](docs/index.md) (current, PHP >= 8.5)
   * [Validating subjects](docs/subjects.md)
   * [Rule options](docs/options.md)
   * [Working with failures](docs/failures.md)
   * [Twig integration](docs/twig.md)
   * [Extending](docs/extending.md)
+* [**5.x**](https://github.com/awurth/Validator/tree/5.x/docs) (PHP >= 8.1)
 * [**3.4**](https://github.com/awurth/Validator/tree/3.x/docs) (outdated, PHP >= 7.1)
 
 ## Usage
