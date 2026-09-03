@@ -16,9 +16,13 @@ namespace Awurth\Validator\Tests;
 use Awurth\Validator\Exception\InvalidPropertyOptionsException;
 use Awurth\Validator\Validator;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Respect\Validation\Validator as V;
+use Slim\Factory\AppFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use Slim\Psr7\Response;
 
 final class ValidatorTest extends TestCase
 {
@@ -66,6 +70,33 @@ final class ValidatorTest extends TestCase
         $errors = $this->validator->validate($this->request, ['username' => V::length(8)]);
 
         self::assertSame(1, $errors->count());
+    }
+
+    public function testRequestWithRouteArguments(): void
+    {
+        $app = AppFactory::create();
+        $app->get('/users/{username}', static fn (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface => $response);
+
+        $handler = new class implements RequestHandlerInterface {
+            public ?ServerRequestInterface $request = null;
+
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                $this->request = $request;
+
+                return new Response();
+            }
+        };
+
+        $app->addRoutingMiddleware()->process(
+            (new ServerRequestFactory())->createServerRequest('GET', 'http://localhost/users/a_wurth'),
+            $handler,
+        );
+
+        self::assertInstanceOf(ServerRequestInterface::class, $handler->request);
+
+        self::assertSame(0, $this->validator->validate($handler->request, ['username' => V::length(6)])->count());
+        self::assertSame(1, $this->validator->validate($handler->request, ['username' => V::length(8)])->count());
     }
 
     public function testArray(): void

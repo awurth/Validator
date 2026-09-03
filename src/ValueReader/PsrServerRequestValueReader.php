@@ -20,9 +20,11 @@ final class PsrServerRequestValueReader implements ValueReaderInterface
         $route = $subject->getAttribute('route');
         $routeParams = [];
 
-        if (\class_exists(RouteContext::class)) {
-            $routeContext = RouteContext::fromRequest($subject);
-            $route = $routeContext->getRoute();
+        if (\class_exists(RouteContext::class)
+            && null !== $subject->getAttribute(RouteContext::ROUTE_PARSER)
+            && null !== $subject->getAttribute(RouteContext::ROUTING_RESULTS)
+        ) {
+            $route = RouteContext::fromRequest($subject)->getRoute();
         }
 
         if ($route instanceof RouteInterface) {
