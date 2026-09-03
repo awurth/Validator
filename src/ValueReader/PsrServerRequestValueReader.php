@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Awurth\Validator\ValueReader;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Interfaces\RouteInterface;
+use Slim\Routing\RouteContext;
 
 final class PsrServerRequestValueReader implements ValueReaderInterface
 {
