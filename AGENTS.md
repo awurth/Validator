@@ -15,11 +15,19 @@ composer install
 php vendor/bin/phpunit
 php vendor/bin/phpunit --filter testValidateWithCustomGlobalMessages
 php vendor/bin/php-cs-fixer fix
-php vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation   # what CI runs
+php vendor/bin/php-cs-fixer fix --dry-run --diff   # what CI runs
 composer validate --strict
 ```
 
-CI runs those three checks on push/PR against `5.x`.
+`composer.lock` is gitignored, so every install resolves fresh.
+
+CI (`.github/workflows/ci.yml`) runs on push/PR against `5.x`, split into three jobs:
+
+- **Validate composer.json** — `composer validate --strict`, no install.
+- **Coding standards** — the PHP CS Fixer dry-run, pinned to PHP 8.1 because the fixer can emit syntax the project's minimum version cannot parse when run on a newer runtime.
+- **Tests** — a 6-entry matrix: PHP 8.1 through 8.5 with the highest resolvable dependencies, plus PHP 8.1 with `--prefer-lowest`. The lowest run is the only thing exercising the `symfony/* ^6.0` and `respect/validation ^2.0` floors, so a change that silently needs a newer minor must raise the constraint rather than relax the job.
+
+`fail-fast` is off, so one failing PHP version does not hide the others.
 
 ## Architecture
 
