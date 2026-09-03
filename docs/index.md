@@ -1,8 +1,8 @@
-# Slim Validation
+# Validator
 
 A wrapper around [Respect Validation](https://github.com/Respect/Validation) that returns filterable validation failure objects instead of throwing exceptions.
 
-Despite the name it has no dependency on Slim and works in any PHP project.
+Despite the package name it has no dependency on Slim and works in any PHP project.
 
 ## Installation
 

@@ -1,6 +1,6 @@
-# Slim Validation
+# Validator
 
-[![CI](https://github.com/awurth/SlimValidation/actions/workflows/ci.yml/badge.svg)](https://github.com/awurth/SlimValidation/actions/workflows/ci.yml)
+[![CI](https://github.com/awurth/Validator/actions/workflows/ci.yml/badge.svg)](https://github.com/awurth/Validator/actions/workflows/ci.yml)
 [![Latest Stable Version](https://poser.pugx.org/awurth/slim-validation/v/stable)](https://packagist.org/packages/awurth/slim-validation)
 [![License](https://poser.pugx.org/awurth/slim-validation/license)](https://packagist.org/packages/awurth/slim-validation)
 
@@ -9,7 +9,7 @@
 
 A wrapper around the [Respect Validation](https://github.com/Respect/Validation) PHP validation library for easier error handling and display
 
-> This project was originally designed to be used with the Micro-Framework "Slim", hence the name "Slim Validation", but can now
+> This project was originally designed to be used with the Micro-Framework "Slim", hence the package name "awurth/slim-validation", but can now
   be used in any other PHP project.
 
 ## Installation
@@ -26,7 +26,7 @@ $ composer require awurth/slim-validation "^5.0"
   * [Working with failures](docs/failures.md)
   * [Twig integration](docs/twig.md)
   * [Extending](docs/extending.md)
-* [**3.4**](https://github.com/awurth/SlimValidation/tree/3.x/docs) (outdated, PHP >= 7.1)
+* [**3.4**](https://github.com/awurth/Validator/tree/3.x/docs) (outdated, PHP >= 7.1)
 
 ## Usage
 

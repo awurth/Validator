@@ -2,7 +2,7 @@
     "name": "awurth/slim-validation",
     "description": "A wrapper around the respect/validation PHP validation library for easier error handling and display",
     "keywords": ["validation", "validator", "validate", "respect", "slim"],
-    "homepage": "https://github.com/awurth/SlimValidation",
+    "homepage": "https://github.com/awurth/Validator",
     "license": "MIT",
     "authors": [
         {
