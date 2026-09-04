@@ -23,7 +23,7 @@
     },
     "require": {
         "php": ">=8.5",
-        "respect/validation": "^3.1",
+        "respect/validation": "^3.1.1",
         "symfony/options-resolver": "^7.4 || ^8.0",
         "symfony/property-access": "^7.4 || ^8.0"
     },
