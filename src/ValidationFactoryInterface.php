@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 
 /**
  * Handles the creation of a Validation.
@@ -23,7 +23,7 @@ use Respect\Validation\Validatable;
 interface ValidationFactoryInterface
 {
     /**
-     * @param array{rules: Validatable}&array<array-key, mixed> $options
+     * @param array{rules: RespectValidator}&array<array-key, mixed> $options
      */
     public function create(array $options, ?string $property = null, mixed $default = null): ValidationInterface;
 }

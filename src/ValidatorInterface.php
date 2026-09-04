@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Awurth\Validator;
 
 use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 
 /**
  * @phpstan-type ValidationOptions array{
- *     rules: Validatable,
+ *     rules: RespectValidator,
  *     default?: mixed,
  *     message?: string|null,
  *     messages?: array<string, string>,
@@ -27,8 +27,8 @@ use Respect\Validation\Validatable;
 interface ValidatorInterface
 {
     /**
-     * @param Validatable|ValidationOptions|array<string, Validatable|ValidationOptions> $rules    the options for a single value when $subject is a scalar, a property => rules map otherwise
-     * @param array<string, string>                                                      $messages
+     * @param RespectValidator|ValidationOptions|array<string, RespectValidator|ValidationOptions> $rules    the options for a single value when $subject is a scalar, a property => rules map otherwise
+     * @param array<string, string>                                                                $messages
      */
-    public function validate(mixed $subject, Validatable|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface;
+    public function validate(mixed $subject, RespectValidator|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface;
 }

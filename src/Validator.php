@@ -23,7 +23,7 @@ use Awurth\Validator\ValueReader\ValueReaderRegistry;
 use Awurth\Validator\ValueReader\ValueReaderRegistryInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 
 use function get_debug_type;
 use function is_array;
@@ -58,9 +58,9 @@ final readonly class Validator implements ValidatorInterface
         );
     }
 
-    public function validate(mixed $subject, Validatable|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface
+    public function validate(mixed $subject, RespectValidator|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface
     {
-        if ($rules instanceof Validatable) {
+        if ($rules instanceof RespectValidator) {
             return $this->asserter->assert($subject, $this->validationFactory->create([
                 'rules' => $rules,
                 'globalMessages' => $messages,
@@ -83,10 +83,10 @@ final readonly class Validator implements ValidatorInterface
 
         $failures = null;
         foreach ($rules as $property => $options) {
-            if ($options instanceof Validatable) {
+            if ($options instanceof RespectValidator) {
                 $options = ['rules' => $options];
             } elseif (!is_array($options)) {
-                throw new InvalidPropertyOptionsException(sprintf('Expected an array or an instance of "%s", "%s" given', Validatable::class, get_debug_type($options)));
+                throw new InvalidPropertyOptionsException(sprintf('Expected an array or an instance of "%s", "%s" given', RespectValidator::class, get_debug_type($options)));
             }
 
             $options['globalMessages'] = $messages;
@@ -109,12 +109,12 @@ final readonly class Validator implements ValidatorInterface
     /**
      * @param array<array-key, mixed> $options
      *
-     * @return array{rules: Validatable}&array<array-key, mixed>
+     * @return array{rules: RespectValidator}&array<array-key, mixed>
      */
     private function assertHasRules(array $options, ?string $property = null): array
     {
-        if (!($options['rules'] ?? null) instanceof Validatable) {
-            throw new InvalidPropertyOptionsException(sprintf('The "rules" option must be an instance of "%s"%s, "%s" given', Validatable::class, null === $property ? '' : sprintf(' for property "%s"', $property), get_debug_type($options['rules'] ?? null)));
+        if (!($options['rules'] ?? null) instanceof RespectValidator) {
+            throw new InvalidPropertyOptionsException(sprintf('The "rules" option must be an instance of "%s"%s, "%s" given', RespectValidator::class, null === $property ? '' : sprintf(' for property "%s"', $property), get_debug_type($options['rules'] ?? null)));
         }
 
         return $options;

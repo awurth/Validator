@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -52,7 +52,7 @@ final class ValidationFactory implements ValidationFactoryInterface
                     'context' => null,
                 ])
                 ->setRequired('rules')
-                ->setAllowedTypes('rules', Validatable::class)
+                ->setAllowedTypes('rules', RespectValidator::class)
                 ->setAllowedTypes('message', ['null', 'string'])
                 ->setAllowedTypes('messages', 'string[]')
                 ->setAllowedTypes('globalMessages', 'string[]')

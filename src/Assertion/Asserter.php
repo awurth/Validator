@@ -19,13 +19,16 @@ use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
 use Awurth\Validator\Failure\ValidationFailureFactory;
 use Awurth\Validator\Failure\ValidationFailureFactoryInterface;
 use Awurth\Validator\ValidationInterface;
-use Respect\Validation\Exceptions\NestedValidationException;
+use Respect\Validation\ValidatorBuilder;
 
 use function array_replace;
 use function is_array;
+use function is_string;
 
 final readonly class Asserter implements AsserterInterface
 {
+    private const string COMPOSITE_MESSAGE_KEY = '__root__';
+
     /**
      * @param array<string, string> $messages
      */
@@ -48,45 +51,55 @@ final readonly class Asserter implements AsserterInterface
     {
         $failures = $this->validationFailureCollectionFactory->create();
 
-        try {
-            $validation->getRules()->assert($subject);
-        } catch (NestedValidationException $nestedValidationException) {
-            $message = $validation->getMessage();
-            if (null !== $message) {
-                $failures->add(
-                    $this->validationFailureFactory->create($validation, $message, $subject),
-                );
+        $templates = array_replace($this->messages, $validation->getGlobalMessages(), $validation->getMessages());
+        $result = ValidatorBuilder::init($validation->getRules())->validate($subject, $templates);
 
-                return $failures;
-            }
+        if (!$result->hasFailed()) {
+            return $failures;
+        }
 
-            $exceptionMessages = $this->extractMessagesFromException($nestedValidationException, $validation);
-            foreach ($exceptionMessages as $ruleName => $message) {
-                $failures->add(
-                    $this->validationFailureFactory->create($validation, $message, $subject, $ruleName),
-                );
-            }
+        $message = $validation->getMessage();
+        if (null !== $message) {
+            $failures->add(
+                $this->validationFailureFactory->create($validation, $message, $subject),
+            );
+
+            return $failures;
+        }
+
+        foreach ($this->flattenMessages($result->getMessages()) as $ruleName => $ruleMessage) {
+            $failures->add(
+                $this->validationFailureFactory->create($validation, $ruleMessage, $subject, $ruleName),
+            );
         }
 
         return $failures;
     }
 
     /**
+     * @param array<string|int, mixed> $messages
+     *
      * @return array<string, string>
      */
-    private function extractMessagesFromException(NestedValidationException $exception, ValidationInterface $validation): array
+    private function flattenMessages(array $messages): array
     {
-        $definedMessages = array_replace($this->messages, $validation->getGlobalMessages(), $validation->getMessages());
+        unset($messages[self::COMPOSITE_MESSAGE_KEY]);
 
-        $errors = [];
-        foreach ($exception->getMessages($definedMessages) as $name => $error) {
-            if (is_array($error)) {
-                $errors = [...$errors, ...$error];
-            } else {
-                $errors[$name] = $error;
+        $flattened = [];
+        foreach ($messages as $name => $message) {
+            if (is_array($message)) {
+                $flattened = [...$flattened, ...$this->flattenMessages($message)];
+
+                continue;
             }
+
+            if (!is_string($message)) {
+                continue;
+            }
+
+            $flattened[(string) $name] = $message;
         }
 
-        return $errors;
+        return $flattened;
     }
 }

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 
 /**
  * Contains validation rules and other data used to handle validation failures.
@@ -22,7 +22,7 @@ use Respect\Validation\Validatable;
  */
 interface ValidationInterface
 {
-    public function getRules(): Validatable;
+    public function getRules(): RespectValidator;
 
     /**
      * Gets the object property, array key or request parameter.
