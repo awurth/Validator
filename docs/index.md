@@ -16,10 +16,10 @@ Requires PHP 8.5 or newer.
 
 ``` php
 use Awurth\Validator\Validator;
-use Respect\Validation\Validator as V;
+use Respect\Validation\ValidatorBuilder as V;
 
 $validator = Validator::create();
-$failures = $validator->validate('Too short', V::notBlank()->length(min: 10));
+$failures = $validator->validate('Too short', V::notBlank()->length(V::greaterThanOrEqual(10)));
 
 if (0 !== $failures->count()) {
     foreach ($failures as $failure) {

@@ -35,10 +35,10 @@ The following example shows how to validate that a string is at least 10 charact
 
 ``` php
 use Awurth\Validator\Validator;
-use Respect\Validation\Validator as V;
+use Respect\Validation\ValidatorBuilder as V;
 
 $validator = Validator::create();
-$failures = $validator->validate('Too short', V::notBlank()->length(min: 10));
+$failures = $validator->validate('Too short', V::notBlank()->length(V::greaterThanOrEqual(10)));
 
 if (0 !== $failures->count()) {
     // Validation failed: display errors

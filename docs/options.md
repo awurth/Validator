@@ -1,6 +1,6 @@
 # Rule options
 
-Anywhere rules are accepted you may pass an options array instead of a bare `Validatable`. These two are equivalent:
+Anywhere rules are accepted you may pass an options array instead of a bare `Respect\Validation\Validator`. These two are equivalent:
 
 ``` php
 $validator->validate($subject, ['username' => V::notBlank()]);
@@ -9,12 +9,12 @@ $validator->validate($subject, ['username' => ['rules' => V::notBlank()]]);
 
 | Option    | Type          | Description                                              |
 |-----------|---------------|----------------------------------------------------------|
-| `rules`   | `Validatable` | Required. The rules to assert.                            |
+| `rules`   | `Respect\Validation\Validator` | Required. The rules to assert.                            |
 | `default` | `mixed`       | Value used when the property is missing or unreadable.    |
 | `message` | `?string`     | Replaces every failure for this property with a single one. |
 | `messages`| `array`       | Per rule name overrides, keyed by rule.                   |
 
-A `rules` option that is not a `Validatable` throws `Awurth\Validator\Exception\InvalidPropertyOptionsException`.
+A `rules` option that is not a `Respect\Validation\Validator` throws `Awurth\Validator\Exception\InvalidPropertyOptionsException`.
 
 ## default
 
@@ -36,7 +36,7 @@ Collapses the property to exactly one failure regardless of how many rules faile
 ``` php
 $failures = $validator->validate(['username' => ''], [
     'username' => [
-        'rules' => V::notBlank()->length(min: 6),
+        'rules' => V::notBlank()->length(V::greaterThanOrEqual(6)),
         'message' => 'Please choose a valid username.',
     ],
 ]);
@@ -44,19 +44,21 @@ $failures = $validator->validate(['username' => ''], [
 
 ## messages
 
-Overrides individual rule messages, keyed by rule name.
+Overrides individual rule messages, keyed by the respect validator id — the lowercased short class name of the rule that failed, including any prefix. `V::notBlank()` is keyed `notBlank`, `V::length(V::greaterThanOrEqual(6))` is keyed `lengthGreaterThanOrEqual`.
 
 ``` php
 $failures = $validator->validate(['username' => ''], [
     'username' => [
-        'rules' => V::notBlank()->length(min: 6),
+        'rules' => V::notBlank()->length(V::greaterThanOrEqual(6)),
         'messages' => [
             'notBlank' => 'Pick a username.',
-            'length' => 'At least 6 characters.',
+            'lengthGreaterThanOrEqual' => 'At least 6 characters.',
         ],
     ],
 ]);
 ```
+
+Read a key you are unsure about off the failure itself: `$failure->getRuleName()`.
 
 ## Message precedence
 

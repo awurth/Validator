@@ -21,6 +21,8 @@ foreach ($failures as $failure) {
 }
 ```
 
+`getRuleName()` is the respect validator id of the failing rule — the lowercased short class name, prefixes included, so `V::length(V::greaterThanOrEqual(6))` reports `lengthGreaterThanOrEqual`. It is `null` for a property level message, which is what the `message` option produces.
+
 The property name lives on the `Validation`, since a single value validation has none:
 
 ``` php

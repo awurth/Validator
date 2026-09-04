@@ -3,20 +3,20 @@
 `Validator::validate()` takes any subject and branches on its type. What you pass as `$rules` depends on that type.
 
 ``` text
-validate(mixed $subject, Validatable|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface
+validate(mixed $subject, Respect\Validation\Validator|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface
 ```
 
 ## A single value
 
-Pass a `Validatable` to validate the subject itself. Failures carry no property name.
+Pass a `Respect\Validation\Validator` to validate the subject itself. Failures carry no property name.
 
 ``` php
 use Awurth\Validator\Validator;
-use Respect\Validation\Validator as V;
+use Respect\Validation\ValidatorBuilder as V;
 
 $validator = Validator::create();
 
-$failures = $validator->validate('a_wurth', V::length(min: 10));
+$failures = $validator->validate('a_wurth', V::length(V::greaterThanOrEqual(10)));
 ```
 
 ## Arrays
@@ -30,8 +30,8 @@ $data = [
 ];
 
 $failures = $validator->validate($data, [
-    'username' => V::length(min: 3),
-    'password' => V::length(min: 8),
+    'username' => V::length(V::greaterThanOrEqual(3)),
+    'password' => V::length(V::greaterThanOrEqual(8)),
 ]);
 ```
 
@@ -81,7 +81,7 @@ use Slim\Factory\AppFactory;
 $app = AppFactory::create();
 $app->get('/users/{username}', function ($request, $response) use ($validator) {
     $failures = $validator->validate($request, [
-        'username' => V::length(min: 6),
+        'username' => V::length(V::greaterThanOrEqual(6)),
     ]);
 
     return $response;
