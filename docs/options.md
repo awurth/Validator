@@ -7,12 +7,12 @@ $validator->validate($subject, ['username' => V::notBlank()]);
 $validator->validate($subject, ['username' => ['rules' => V::notBlank()]]);
 ```
 
-| Option    | Type          | Description                                              |
-|-----------|---------------|----------------------------------------------------------|
-| `rules`   | `Respect\Validation\Validator` | Required. The rules to assert.                            |
-| `default` | `mixed`       | Value used when the property is missing or unreadable.    |
-| `message` | `?string`     | Replaces every failure for this property with a single one. |
-| `messages`| `array`       | Per rule name overrides, keyed by rule.                   |
+| Option     | Type                           | Description                                                 |
+|------------|--------------------------------|-------------------------------------------------------------|
+| `rules`    | `Respect\Validation\Validator` | Required. The rules to assert.                              |
+| `default`  | `mixed`                        | Value used when the property is missing or unreadable.      |
+| `message`  | `?string`                      | Replaces every failure for this property with a single one. |
+| `messages` | `array`                        | Per rule id overrides, keyed by respect validator id.       |
 
 A `rules` option that is not a `Respect\Validation\Validator` throws `Awurth\Validator\Exception\InvalidPropertyOptionsException`.
 
@@ -44,7 +44,7 @@ $failures = $validator->validate(['username' => ''], [
 
 ## messages
 
-Overrides individual rule messages, keyed by the respect validator id — the lowercased short class name of the rule that failed, including any prefix. `V::notBlank()` is keyed `notBlank`, `V::length(V::greaterThanOrEqual(6))` is keyed `lengthGreaterThanOrEqual`.
+Overrides individual rule messages, keyed by the respect validator id — the short class name of the rule that failed, with a lowercase first letter, including any prefix. `V::notBlank()` is keyed `notBlank`, `V::length(V::greaterThanOrEqual(6))` is keyed `lengthGreaterThanOrEqual`.
 
 ``` php
 $failures = $validator->validate(['username' => ''], [
@@ -58,7 +58,7 @@ $failures = $validator->validate(['username' => ''], [
 ]);
 ```
 
-Read a key you are unsure about off the failure itself: `$failure->getRuleName()`.
+Read a key you are unsure about off the failure itself: `$failure->getRuleName()`. That only works for a flat rule chain — inside `each()` or `key()` it returns the failing item's position or array key instead, not a message key. There, key `messages` by the wrapped rule's own id instead, e.g. `stringType` for `V::each(V::stringType())`.
 
 ## Message precedence
 

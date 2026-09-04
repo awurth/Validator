@@ -26,6 +26,7 @@ $ composer require awurth/slim-validation
   * [Working with failures](docs/failures.md)
   * [Twig integration](docs/twig.md)
   * [Extending](docs/extending.md)
+  * [Upgrading from 5.x to 6.0](docs/upgrading-from-5.md)
 * [**5.x**](https://github.com/awurth/Validator/tree/5.x/docs) (PHP >= 8.1)
 * [**3.4**](https://github.com/awurth/Validator/tree/3.x/docs) (outdated, PHP >= 7.1)
 
