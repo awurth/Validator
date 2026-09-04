@@ -287,5 +287,8 @@ final class ValidatorTest extends TestCase
         ]);
 
         self::assertCount(3, $errors);
+        self::assertSame('0', $errors->get(0)->getRuleName());
+        self::assertSame('1', $errors->get(1)->getRuleName());
+        self::assertSame('2', $errors->get(2)->getRuleName());
     }
 }

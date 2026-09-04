@@ -56,7 +56,7 @@ The rules renamed above change key too, not just call signature:
 
 `V::optional()` and `V::nullable()` never keyed the wrapped rule's failure by its own id in 2.x — both reported it under the generic `validator` key. `V::undefOr()` and `V::nullOr()` key it as the wrapped rule's id with `undefOr`/`nullOr` glued on, so `V::nullOr(V::email())` is `nullOrEmail`, not `email` or `validator`.
 
-`ValidationFailureInterface::getRuleName()` returns that same id, so an unknown key can be read off a failure at runtime.
+`ValidationFailureInterface::getRuleName()` returns that same id for a flat rule chain, so an unknown key can be read off a failure at runtime. Inside `each()` or `key()` it only matches the item's position or array key when that item failed a single rule; once it fails more than one, the flattened list is renumbered by running position instead, same as the `key('x', ...)`/`key('y', ...)` example above.
 
 ## Custom message templates
 

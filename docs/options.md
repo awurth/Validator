@@ -58,7 +58,7 @@ $failures = $validator->validate(['username' => ''], [
 ]);
 ```
 
-Read a key you are unsure about off the failure itself: `$failure->getRuleName()`. That only works for a flat rule chain — inside `each()` or `key()` it returns the failing item's position or array key instead, not a message key. There, key `messages` by the wrapped rule's own id instead, e.g. `stringType` for `V::each(V::stringType())`.
+Read a key you are unsure about off the failure itself: `$failure->getRuleName()`. That only works for a flat rule chain — inside `each()` or `key()` it returns the item's position or array key only when that item failed a single rule, and a running-position number otherwise, never a message key. There, key `messages` by the wrapped rule's own id instead, e.g. `stringType` for `V::each(V::stringType())`.
 
 ## Message precedence
 

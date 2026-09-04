@@ -23,7 +23,7 @@ foreach ($failures as $failure) {
 
 `getRuleName()` is the respect validator id of the failing rule for a flat rule chain — the short class name with a lowercase first letter, prefixes included, so `V::length(V::greaterThanOrEqual(6))` reports `lengthGreaterThanOrEqual`. It is `null` for a property level message, which is what the `message` option produces.
 
-`each()` and `key()` report something else instead of a rule id: `each()` reports the positional index of the failing item among the *failing* children, as a string (`'0'`, `'1'`, …), not its index in the original array; `key()` reports the array key that failed (`'a'`, `'b'`, …).
+`each()` and `key()` don't report a rule id at all. An item's or key's own name (its position for `each()`, its array key for `key()`) survives as the rule name only when that item or key failed a single rule. As soon as any item or key inside fails more than one rule, its own position or key is discarded and the whole flattened list is renumbered by running position instead (`'0'`, `'1'`, `'2'`, …), no longer tied to which item or key each message came from.
 
 The property name lives on the `Validation`, since a single value validation has none:
 
