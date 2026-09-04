@@ -69,7 +69,7 @@ final readonly class Asserter implements AsserterInterface
 
         foreach ($this->flattenMessages($result->getMessages()) as $ruleName => $ruleMessage) {
             $failures->add(
-                $this->validationFailureFactory->create($validation, $ruleMessage, $subject, $ruleName),
+                $this->validationFailureFactory->create($validation, $ruleMessage, $subject, (string) $ruleName),
             );
         }
 
@@ -79,7 +79,7 @@ final readonly class Asserter implements AsserterInterface
     /**
      * @param array<string|int, mixed> $messages
      *
-     * @return array<string, string>
+     * @return array<string|int, string>
      */
     private function flattenMessages(array $messages): array
     {
@@ -97,7 +97,7 @@ final readonly class Asserter implements AsserterInterface
                 continue;
             }
 
-            $flattened[(string) $name] = $message;
+            $flattened[$name] = $message;
         }
 
         return $flattened;

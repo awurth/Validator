@@ -269,4 +269,14 @@ final class ValidatorTest extends TestCase
         self::assertSame('lengthGreaterThanOrEqual', $errors->get(0)->getRuleName());
         self::assertSame('alnum', $errors->get(1)->getRuleName());
     }
+
+    public function testValidateCastsIntegerRuleNameKeysToString(): void
+    {
+        $errors = $this->validator->validate(['tags' => ['ok', 1, 'fine']], [
+            'tags' => V::each(V::stringType()),
+        ]);
+
+        self::assertCount(1, $errors);
+        self::assertSame('0', $errors->get(0)->getRuleName());
+    }
 }
