@@ -39,3 +39,4 @@ The validator is stateless: it holds nothing between calls, so a single instance
 * [Working with failures](failures.md) — reading, filtering and counting failures
 * [Twig integration](twig.md) — displaying errors in templates
 * [Extending](extending.md) — custom value readers, asserters and factories
+* [Upgrading from 5.x to 6.0](upgrading-from-5.md) — moving to respect/validation 3
