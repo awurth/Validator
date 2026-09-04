@@ -16,10 +16,10 @@ Requires PHP 8.5 or newer.
 
 ``` php
 use Awurth\Validator\Validator;
-use Respect\Validation\Validator as V;
+use Respect\Validation\ValidatorBuilder as V;
 
 $validator = Validator::create();
-$failures = $validator->validate('Too short', V::notBlank()->length(min: 10));
+$failures = $validator->validate('Too short', V::notBlank()->length(V::greaterThanOrEqual(10)));
 
 if (0 !== $failures->count()) {
     foreach ($failures as $failure) {
@@ -39,3 +39,4 @@ The validator is stateless: it holds nothing between calls, so a single instance
 * [Working with failures](failures.md) — reading, filtering and counting failures
 * [Twig integration](twig.md) — displaying errors in templates
 * [Extending](extending.md) — custom value readers, asserters and factories
+* [Upgrading from 5.x to 6.0](upgrading-from-5.md) — moving to respect/validation 3

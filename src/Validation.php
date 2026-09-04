@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Awurth\Validator;
 
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 
 /**
  * Contains validation rules and other data used to handle validation failures.
@@ -27,7 +27,7 @@ final readonly class Validation implements ValidationInterface
      * @param array<string, string> $globalMessages
      */
     public function __construct(
-        private Validatable $rules,
+        private RespectValidator $rules,
         private ?string $property = null,
         private mixed $default = null,
         private ?string $message = null,
@@ -37,7 +37,7 @@ final readonly class Validation implements ValidationInterface
     ) {
     }
 
-    public function getRules(): Validatable
+    public function getRules(): RespectValidator
     {
         return $this->rules;
     }

@@ -8,7 +8,7 @@ use Awurth\Validator\StatefulValidator;
 $validator = StatefulValidator::create();
 
 $validator->validate($request, ['username' => V::notBlank()]);
-$validator->validate($request, ['password' => V::length(min: 8)]);
+$validator->validate($request, ['password' => V::length(V::greaterThanOrEqual(8))]);
 
 $validator->getFailures(); // failures from both calls
 ```

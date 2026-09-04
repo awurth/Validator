@@ -4,6 +4,11 @@
 
 * Raised the minimum PHP version to 8.5
 * Removed `Awurth\Validator\Twig\LegacyValidatorExtension`, deprecated since v5.0, use `Awurth\Validator\Twig\ValidatorExtension` instead
+* Migrated to `respect/validation` ^3.1.1, dropped support for 2.x
+* Rules are now typed `Respect\Validation\Validator` instead of the removed `Respect\Validation\Validatable`
+* Custom messages and `ValidationFailureInterface::getRuleName()` are keyed by respect validator ids, so composed rules such as `length()` changed key (see `docs/upgrading-from-5.md`)
+* The composite `__root__` message respect emits for a rule chain with several failures is not reported as a failure
+* `each()` and `key()` now report one failure per failing rule inside each item or key instead of one failure per item or key, keyed by position or array key instead of by property (see `docs/upgrading-from-5.md`)
 
 ## v5.1.0
 

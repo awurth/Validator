@@ -26,6 +26,7 @@ $ composer require awurth/slim-validation
   * [Working with failures](docs/failures.md)
   * [Twig integration](docs/twig.md)
   * [Extending](docs/extending.md)
+  * [Upgrading from 5.x to 6.0](docs/upgrading-from-5.md)
 * [**5.x**](https://github.com/awurth/Validator/tree/5.x/docs) (PHP >= 8.1)
 * [**3.4**](https://github.com/awurth/Validator/tree/3.x/docs) (outdated, PHP >= 7.1)
 
@@ -35,10 +36,10 @@ The following example shows how to validate that a string is at least 10 charact
 
 ``` php
 use Awurth\Validator\Validator;
-use Respect\Validation\Validator as V;
+use Respect\Validation\ValidatorBuilder as V;
 
 $validator = Validator::create();
-$failures = $validator->validate('Too short', V::notBlank()->length(min: 10));
+$failures = $validator->validate('Too short', V::notBlank()->length(V::greaterThanOrEqual(10)));
 
 if (0 !== $failures->count()) {
     // Validation failed: display errors

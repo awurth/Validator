@@ -1,18 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to function is_array\(\) with string will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: src/Assertion/Asserter.php
-
-		-
-			message: '#^Method Awurth\\Validator\\Assertion\\Asserter\:\:extractMessagesFromException\(\) should return array\<string, string\> but returns array\<string\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Assertion/Asserter.php
-
-		-
 			message: '#^Call to an undefined method Awurth\\Validator\\Failure\\ValidationFailureCollectionInterface\:\:filter\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -43,7 +31,7 @@ parameters:
 			path: src/Twig/ValidatorExtension.php
 
 		-
-			message: '#^Parameter \#1 \$rules of class Awurth\\Validator\\Validation constructor expects Respect\\Validation\\Validatable, mixed given\.$#'
+			message: '#^Parameter \#1 \$rules of class Awurth\\Validator\\Validation constructor expects Respect\\Validation\\Validator, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/ValidationFactory.php

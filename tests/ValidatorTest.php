@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Respect\Validation\Validator as V;
+use Respect\Validation\ValidatorBuilder as V;
 use Slim\Factory\AppFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
@@ -67,11 +67,11 @@ final class ValidatorTest extends TestCase
 
     public function testRequest(): void
     {
-        $errors = $this->validator->validate($this->request, ['username' => V::length(6)]);
+        $errors = $this->validator->validate($this->request, ['username' => V::length(V::greaterThanOrEqual(6))]);
 
         self::assertCount(0, $errors);
 
-        $errors = $this->validator->validate($this->request, ['username' => V::length(8)]);
+        $errors = $this->validator->validate($this->request, ['username' => V::length(V::greaterThanOrEqual(8))]);
 
         self::assertCount(1, $errors);
     }
@@ -99,8 +99,8 @@ final class ValidatorTest extends TestCase
 
         self::assertInstanceOf(ServerRequestInterface::class, $handler->request);
 
-        self::assertCount(0, $this->validator->validate($handler->request, ['username' => V::length(6)]));
-        self::assertCount(1, $this->validator->validate($handler->request, ['username' => V::length(8)]));
+        self::assertCount(0, $this->validator->validate($handler->request, ['username' => V::length(V::greaterThanOrEqual(6))]));
+        self::assertCount(1, $this->validator->validate($handler->request, ['username' => V::length(V::greaterThanOrEqual(8))]));
     }
 
     public function testArray(): void
@@ -118,8 +118,8 @@ final class ValidatorTest extends TestCase
         self::assertCount(0, $errors);
 
         $errors = $this->validator->validate($array, [
-            'username' => V::notBlank()->length(10),
-            'password' => V::notBlank()->length(10),
+            'username' => V::notBlank()->length(V::greaterThanOrEqual(10)),
+            'password' => V::notBlank()->length(V::greaterThanOrEqual(10)),
         ]);
 
         self::assertCount(2, $errors);
@@ -151,7 +151,7 @@ final class ValidatorTest extends TestCase
     public function testValidateWithErrors(): void
     {
         $errors = $this->validator->validate($this->request, [
-            'username' => V::length(8),
+            'username' => V::length(V::greaterThanOrEqual(8)),
         ]);
 
         self::assertCount(1, $errors);
@@ -159,16 +159,16 @@ final class ValidatorTest extends TestCase
         $error = $errors->get(0);
 
         self::assertSame('username', $error->getValidation()->getProperty());
-        self::assertSame('length', $error->getRuleName());
+        self::assertSame('lengthGreaterThanOrEqual', $error->getRuleName());
         self::assertSame('a_wurth', $error->getInvalidValue());
-        self::assertSame('"a_wurth" must have a length greater than or equal to 8', $error->getMessage());
+        self::assertSame('The length of "a_wurth" must be greater than or equal to 8', $error->getMessage());
     }
 
     public function testValidateWithCustomDefaultMessage(): void
     {
-        $validator = Validator::create(messages: ['length' => 'Too short!']);
+        $validator = Validator::create(messages: ['lengthGreaterThanOrEqual' => 'Too short!']);
         $errors = $validator->validate($this->request, [
-            'username' => V::length(8),
+            'username' => V::length(V::greaterThanOrEqual(8)),
         ]);
 
         self::assertCount(1, $errors);
@@ -178,9 +178,9 @@ final class ValidatorTest extends TestCase
     public function testValidateWithCustomGlobalMessages(): void
     {
         $errors = $this->validator->validate($this->request, [
-            'username' => V::length(8),
-            'password' => V::length(8),
-        ], ['length' => 'Too short!']);
+            'username' => V::length(V::greaterThanOrEqual(8)),
+            'password' => V::length(V::greaterThanOrEqual(8)),
+        ], ['lengthGreaterThanOrEqual' => 'Too short!']);
 
         self::assertCount(2, $errors);
         self::assertSame('Too short!', $errors->get(0)->getMessage());
@@ -189,10 +189,10 @@ final class ValidatorTest extends TestCase
 
     public function testValidateWithCustomDefaultAndGlobalMessages(): void
     {
-        $validator = Validator::create(messages: ['length' => 'Too short!']);
+        $validator = Validator::create(messages: ['lengthGreaterThanOrEqual' => 'Too short!']);
         $errors = $validator->validate($this->request, [
-            'username' => V::length(8),
-            'password' => V::length(8)->alpha(),
+            'username' => V::length(V::greaterThanOrEqual(8)),
+            'password' => V::length(V::greaterThanOrEqual(8))->alpha(),
         ], ['alpha' => 'Only letters are allowed']);
 
         self::assertCount(3, $errors);
@@ -206,19 +206,19 @@ final class ValidatorTest extends TestCase
     {
         $errors = $this->validator->validate($this->request, [
             'username' => [
-                'rules' => V::length(8),
+                'rules' => V::length(V::greaterThanOrEqual(8)),
                 'messages' => [
-                    'length' => 'Too short!',
+                    'lengthGreaterThanOrEqual' => 'Too short!',
                 ],
             ],
-            'password' => V::length(8),
+            'password' => V::length(V::greaterThanOrEqual(8)),
         ]);
 
         self::assertCount(2, $errors);
         self::assertSame('username', $errors->get(0)->getValidation()->getProperty());
         self::assertSame('Too short!', $errors->get(0)->getMessage());
         self::assertSame('password', $errors->get(1)->getValidation()->getProperty());
-        self::assertSame('"1234" must have a length greater than or equal to 8', $errors->get(1)->getMessage());
+        self::assertSame('The length of "1234" must be greater than or equal to 8', $errors->get(1)->getMessage());
     }
 
     public function testValidateWithWrongCustomSingleMessageType(): void
@@ -228,7 +228,7 @@ final class ValidatorTest extends TestCase
 
         $this->validator->validate($this->request, [
             'username' => [
-                'rules' => V::length(8)->alnum(),
+                'rules' => V::length(V::greaterThanOrEqual(8))->alnum(),
                 'message' => 10,
             ],
         ]);
@@ -238,16 +238,16 @@ final class ValidatorTest extends TestCase
     {
         $errors = $this->validator->validate($this->request, [
             'username' => [
-                'rules' => V::length(8)->alnum(),
+                'rules' => V::length(V::greaterThanOrEqual(8))->alnum(),
                 'message' => 'Bad username.',
                 'messages' => [
-                    'length' => 'Too short!',
+                    'lengthGreaterThanOrEqual' => 'Too short!',
                 ],
             ],
             'password' => [
-                'rules' => V::length(8),
+                'rules' => V::length(V::greaterThanOrEqual(8)),
                 'messages' => [
-                    'length' => 'Too short!',
+                    'lengthGreaterThanOrEqual' => 'Too short!',
                 ],
             ],
         ]);
@@ -257,5 +257,38 @@ final class ValidatorTest extends TestCase
         self::assertSame('Bad username.', $errors->get(0)->getMessage());
         self::assertSame('password', $errors->get(1)->getValidation()->getProperty());
         self::assertSame('Too short!', $errors->get(1)->getMessage());
+    }
+
+    public function testValidateDoesNotReportTheCompositeFailure(): void
+    {
+        $errors = $this->validator->validate($this->request, [
+            'username' => V::length(V::greaterThanOrEqual(8))->alnum(),
+        ]);
+
+        self::assertCount(2, $errors);
+        self::assertSame('lengthGreaterThanOrEqual', $errors->get(0)->getRuleName());
+        self::assertSame('alnum', $errors->get(1)->getRuleName());
+    }
+
+    public function testValidateCastsIntegerRuleNameKeysToString(): void
+    {
+        $errors = $this->validator->validate(['tags' => ['ok', 1, 'fine']], [
+            'tags' => V::each(V::stringType()),
+        ]);
+
+        self::assertCount(1, $errors);
+        self::assertSame('0', $errors->get(0)->getRuleName());
+    }
+
+    public function testValidateDoesNotDropSiblingFailuresWithIntegerKeys(): void
+    {
+        $errors = $this->validator->validate(['tags' => ['abc', '!!', 'x']], [
+            'tags' => V::each(V::alnum()->length(V::greaterThanOrEqual(3))),
+        ]);
+
+        self::assertCount(3, $errors);
+        self::assertSame('0', $errors->get(0)->getRuleName());
+        self::assertSame('1', $errors->get(1)->getRuleName());
+        self::assertSame('2', $errors->get(2)->getRuleName());
     }
 }

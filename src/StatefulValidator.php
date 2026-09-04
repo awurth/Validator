@@ -17,7 +17,7 @@ use Awurth\Validator\Assertion\AsserterInterface;
 use Awurth\Validator\Failure\ValidationFailureCollectionFactory;
 use Awurth\Validator\Failure\ValidationFailureCollectionFactoryInterface;
 use Awurth\Validator\Failure\ValidationFailureCollectionInterface;
-use Respect\Validation\Validatable;
+use Respect\Validation\Validator as RespectValidator;
 
 final readonly class StatefulValidator implements StatefulValidatorInterface
 {
@@ -38,7 +38,7 @@ final readonly class StatefulValidator implements StatefulValidatorInterface
         );
     }
 
-    public function validate(mixed $subject, Validatable|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface
+    public function validate(mixed $subject, RespectValidator|array $rules, array $messages = [], mixed $context = null): ValidationFailureCollectionInterface
     {
         $failures = $this->validator->validate($subject, $rules, $messages, $context);
 
