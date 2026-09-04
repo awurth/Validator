@@ -279,4 +279,13 @@ final class ValidatorTest extends TestCase
         self::assertCount(1, $errors);
         self::assertSame('0', $errors->get(0)->getRuleName());
     }
+
+    public function testValidateDoesNotDropSiblingFailuresWithIntegerKeys(): void
+    {
+        $errors = $this->validator->validate(['tags' => ['abc', '!!', 'x']], [
+            'tags' => V::each(V::alnum()->length(V::greaterThanOrEqual(3))),
+        ]);
+
+        self::assertCount(3, $errors);
+    }
 }

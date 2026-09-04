@@ -87,17 +87,19 @@ final readonly class Asserter implements AsserterInterface
 
         $flattened = [];
         foreach ($messages as $name => $message) {
-            if (is_array($message)) {
-                $flattened = [...$flattened, ...$this->flattenMessages($message)];
+            $nested = match (true) {
+                is_array($message) => $this->flattenMessages($message),
+                is_string($message) => [$name => $message],
+                default => [],
+            };
 
-                continue;
+            foreach ($nested as $nestedName => $nestedMessage) {
+                if (is_string($nestedName)) {
+                    $flattened[$nestedName] = $nestedMessage;
+                } else {
+                    $flattened[] = $nestedMessage;
+                }
             }
-
-            if (!is_string($message)) {
-                continue;
-            }
-
-            $flattened[$name] = $message;
         }
 
         return $flattened;
